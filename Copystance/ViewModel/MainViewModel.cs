@@ -39,8 +39,8 @@ namespace Copystance.ViewModel
                 if (selectedItem == value)
                     return;
                 selectedItem = value;
-                RaisePropertyChanged("selectedItem");
-                CopyToClipboard();
+                if(selectedItem!=null)
+                Clipboard.SetText(SelectedItem);
             }
         }
 
