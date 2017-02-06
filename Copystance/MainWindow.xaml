@@ -17,45 +17,49 @@
         <tb:TaskbarIcon IconSource="icon.ico" PopupActivation="LeftClick" MenuActivation="RightClick">
             <tb:TaskbarIcon.TrayPopup>
                 <Border 
-                    MaxWidth="500"
+                    Width="500"
                     MaxHeight="350"
                     MinHeight="200"
-                    MinWidth="350"
                     BorderThickness="3"
                     Opacity="0.8"
                     BorderBrush="#FF15192C"
                     Background="#FF13255F"
                     CornerRadius="3">
-                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                        <ListBox BorderThickness="0" x:Name="ClipboardList" ItemsSource="{Binding ClipboardHistory}" SelectedItem="{Binding SelectedItem}" Background="#FF13255F">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel VerticalAlignment="Top"  Orientation="Vertical">
-                                        <VirtualizingStackPanel.LayoutTransform>
-                                            <ScaleTransform ScaleX="1" ScaleY="-1" />
-                                        </VirtualizingStackPanel.LayoutTransform>
-                                    </VirtualizingStackPanel>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="LayoutTransform">
-                                        <Setter.Value>
-                                            <ScaleTransform ScaleX="1" ScaleY="-1" />
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Margin" Value="2,10,2,0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid MinHeight="20" MaxHeight="50" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                        <TextBlock Foreground="White" FontSize="13" Width="460" Text="{Binding Mode=OneWay}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </ScrollViewer>
+                    <Grid>
+                        <TextBox x:Name="SearchBar" CaretBrush="White" VerticalAlignment="Top" Margin="10,5,10,0" Height="30" FontSize="15" Background="Transparent" Foreground="Gray" 
+                                 Text="{Binding SearchBarText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" LostFocus="SearchBar_LostFocus" MouseLeftButtonDown="SearchBar_MouseLeftButtonDown" HorizontalContentAlignment="Left" Padding="3,3,0,0" BorderBrush="#FF8B8BF3">
+                        </TextBox>
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Margin="0,50,0,0">
+                            <ListBox BorderThickness="0" x:Name="ClipboardList" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem}" Background="#FF13255F">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VerticalAlignment="Top"  Orientation="Vertical">
+                                            <VirtualizingStackPanel.LayoutTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="-1" />
+                                            </VirtualizingStackPanel.LayoutTransform>
+                                        </VirtualizingStackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="LayoutTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="-1" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Margin" Value="2,10,2,0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                                <TextBlock Foreground="White" FontSize="13" Width="460" Text="{Binding Mode=OneWay}" TextWrapping="Wrap" FontFamily="Segoe UI Semilight" />
+                                            </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Grid>
                 </Border>
             </tb:TaskbarIcon.TrayPopup>
             <tb:TaskbarIcon.ContextMenu>

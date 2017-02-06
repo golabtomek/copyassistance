@@ -13,7 +13,17 @@ namespace Copystance.ViewModel
     public class MainViewModel : INotifyPropertyChanged
     {
         //
-        public ObservableCollection<string> ClipboardHistory { get; } = new ObservableCollection<string>();
+        private ObservableCollection<string> ClipboardHistory { get; } = new ObservableCollection<string>();
+        private ObservableCollection<string> SearchResult { get; set; } = new ObservableCollection<string>();
+        
+        public ObservableCollection<string> List
+        {
+            get
+            {
+                if (SearchResult.Count == 0 && (SearchBarText==""||SearchBarText=="Search")) return ClipboardHistory;
+                else return SearchResult;
+            }
+        }
 
         public MainViewModel()
         {
@@ -58,10 +68,40 @@ namespace Copystance.ViewModel
             if(text!=null && text!="" && text!=" " && CheckHistory(text)!=true )
                  ClipboardHistory.Add(text);
         }
+        
 
         public bool OnCanClipboardUpdate()
         {
             return true;
+        }
+
+        private string searchBarText = "Search";
+        public string SearchBarText
+        {
+            get { return searchBarText; }
+            set
+            {
+                if (searchBarText == value)
+                    return;
+                searchBarText = value;
+                RaisePropertyChanged("searchBarText");
+                if (SearchBarText != "" || SearchBarText != "Search")
+                    Search();
+                else
+                    SearchResult = new ObservableCollection<string>();
+            }
+        }
+        
+        public void Search()
+        {
+            SearchResult = new ObservableCollection<string>();
+            foreach(string item in ClipboardHistory)
+            {
+                string item_downcase = item.ToLower();
+                if (item_downcase.Contains(SearchBarText.ToLower()))
+                    SearchResult.Add(item);
+            }
+            RaisePropertyChanged("List");
         }
 
         #endregion
